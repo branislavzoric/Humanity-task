@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -27,12 +28,15 @@ public class Login {
     By field_username = (By.id("email"));
     By field_password = (By.id("password"));
     By button_login = (By.name("login"));
-    By button_stuff = (By.xpath("//*[@id='sn_staff']/span"));
+    By button_stuff = (By.id("sn_staff"));
     By button_add_employees = By.id("act_primary");
     By field_stuff_firstname = By.id("_asf1");
     By field_stuff_lastname = By.id("_asl1");
     By field_stuff_email = By.id("_ase1");
     By button_save_employee = By.id("_as_save_multiple");
+    By button_time_clock = By.xpath("//*[@id='sn_timeclock']/span/i");
+    By button_clock_in = By.id("tc_tl_ci");
+    By button_clock_out = By.id("tc_tl_co");
 
 
 
@@ -58,7 +62,13 @@ public class Login {
         driver.findElement(button_login).click();
         Thread.sleep(3000);
 
-        //3)Navigate to add stuff
+        //3)Navigate to time clock and clock in
+        driver.findElement(button_time_clock).click();
+        Thread.sleep(5000);
+        driver.findElement(button_clock_in).click();
+        Thread.sleep(5000);
+
+        //3)Navigate to add staff
         driver.findElement(button_stuff).click();
         Thread.sleep(2000);
         driver.findElement(button_add_employees).click();
@@ -69,9 +79,10 @@ public class Login {
         driver.findElement(field_stuff_lastname).sendKeys("TestL");
         driver.findElement(field_stuff_email).sendKeys(new_user_name_email);
         driver.findElement(button_save_employee).click();
+        Thread.sleep(10000);
 
-
-
+        //5)Clock out
+        driver.findElement(button_clock_out).click();
 
 
     }
