@@ -19,7 +19,7 @@ public class Login {
     String strPassword = "lokosi10";
     Random rand = new Random();
     int rand_int1 = rand.nextInt(1000);
-    String new_user_name_email= "korisnik" + rand_int1 + "@testmail.com";
+    String new_user_name_email= "user" + rand_int1 + "@testmail.com";
 
 
 
