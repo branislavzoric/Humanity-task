@@ -28,7 +28,7 @@ public class Login {
     By field_username = (By.id("email"));
     By field_password = (By.id("password"));
     By button_login = (By.name("login"));
-    By button_stuff = (By.id("sn_staff"));
+    By button_stuff = (By.xpath("//*[@id='sn_staff']"));
     By button_add_employees = By.id("act_primary");
     By field_stuff_firstname = By.id("_asf1");
     By field_stuff_lastname = By.id("_asl1");
@@ -62,11 +62,6 @@ public class Login {
         driver.findElement(button_login).click();
         Thread.sleep(3000);
 
-        //3)Navigate to time clock and clock in
-        driver.findElement(button_time_clock).click();
-        Thread.sleep(5000);
-        driver.findElement(button_clock_in).click();
-        Thread.sleep(5000);
 
         //3)Navigate to add staff
         driver.findElement(button_stuff).click();
@@ -82,6 +77,10 @@ public class Login {
         Thread.sleep(10000);
 
         //5)Clock out
+        driver.findElement(button_time_clock).click();
+        Thread.sleep(5000);
+        driver.findElement(button_clock_in).click();
+        Thread.sleep(5000);
         driver.findElement(button_clock_out).click();
 
 
