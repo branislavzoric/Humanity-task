@@ -37,6 +37,9 @@ public class Login {
     By button_time_clock = By.xpath("//*[@id='sn_timeclock']/span/i");
     By button_clock_in = By.id("tc_tl_ci");
     By button_clock_out = By.id("tc_tl_co");
+    By error_message = By.xpath("//*[@id='response-message']");
+    By first_name_error_message = By.xpath("//*[@id=\'_status\']");
+    By email_error_message = By.xpath("//*[@id=\'_status\']");
 
 
 
@@ -51,39 +54,97 @@ public class Login {
 
     @Test
     public void test() throws InterruptedException {
-        //1) Open Login Page
+
+        //Login Test case
+
+        //1)Open Login Page
         driver.findElement(link_login).click();
         driverWait.until(ExpectedConditions.visibilityOf(driver.findElement(button_login)));
         Assert.assertTrue(driver.findElement(button_login).isDisplayed());
 
-        //2)Insert username and password
+        //2)Leave blank username
+        driver.findElement(field_password).sendKeys("strPassword");
+        driver.findElement(button_login).click();
+        Assert.assertTrue(driver.findElement(error_message).isDisplayed());
+
+        Thread.sleep(3000);
+
+        //3)Enter wrong password
+
+        driver.findElement(field_username).sendKeys(strUsername);
+        driver.findElement(field_password).clear();
+        driver.findElement(field_password).sendKeys("wrongpassword");
+        driver.findElement(button_login).click();
+        Thread.sleep(1000);
+        Assert.assertTrue(driver.findElement(error_message).isDisplayed());
+        Thread.sleep(3000);
+
+        //4)Enter valid username and password
+
+        driver.findElement(field_username).clear();
+        driver.findElement(field_password).clear();
+
         driver.findElement(field_username).sendKeys(strUsername);
         driver.findElement(field_password).sendKeys(strPassword);
         driver.findElement(button_login).click();
         Thread.sleep(3000);
 
 
-        //3)Navigate to add staff
+
+
+        //Add staff test case
+
+        //1)Navigate to stuff tab
         driver.findElement(button_stuff).click();
         Thread.sleep(2000);
+
+        //2)Navigate to add employee edit mode
         driver.findElement(button_add_employees).click();
         Thread.sleep(2000);
 
-        //4)Populate fields and save employee
+        //3)Username blank error message
+        driver.findElement(field_stuff_lastname).sendKeys("failedtest");
+        driver.findElement(button_save_employee).click();
+        Assert.assertTrue(driver.findElement(first_name_error_message).isDisplayed());
+        Thread.sleep(1000);
+
+        //4)Email exist error message
+        driver.findElement(field_stuff_lastname).clear();
+        driver.findElement(field_stuff_firstname).sendKeys("failedtest");
+        driver.findElement(field_stuff_email).sendKeys("test1test@testmail.com");
+        driver.findElement(button_save_employee).click();
+        Thread.sleep(1000);
+        Assert.assertTrue(driver.findElement(email_error_message).isDisplayed());
+
+
+        //5)Populate fields and save employee
+        driver.findElement(field_stuff_firstname).clear();
+        driver.findElement(field_stuff_lastname).clear();
+        driver.findElement(field_stuff_email).clear();
         driver.findElement(field_stuff_firstname).sendKeys("TestF");
         driver.findElement(field_stuff_lastname).sendKeys("TestL");
         driver.findElement(field_stuff_email).sendKeys(new_user_name_email);
         driver.findElement(button_save_employee).click();
         Thread.sleep(10000);
 
-        //5)Clock out
+        //Clock in and clock out Test case
+
+        //1)Navigate to Time clock tab
         driver.findElement(button_time_clock).click();
         Thread.sleep(5000);
+        //2)Clock in
         driver.findElement(button_clock_in).click();
         Thread.sleep(5000);
+        //3)Clock out
         driver.findElement(button_clock_out).click();
+        Thread.sleep(5000);
 
 
+    }
+
+    @AfterTest
+    public void quit() {
+        driver.quit();
     }
 
 
